@@ -4,10 +4,10 @@
 
 #define STEPS (1000000000)
 #define MILLION (1000000)
-#define FLOPS_PER_STEP (6)
+#define DIV_FLOPS_PER_SEC (1)
 
 double f(double x){
-  return (1.0 / (1.0 + (x * x)));
+  return (1.0 / x);
 }
 
 int main(){
@@ -24,14 +24,14 @@ int main(){
   sum = 0.0;
 
   for(i = 0; i < STEPS; i++){
-    sum += f(x) * inc;
+    sum += f(x);
     x += inc;
   }
   timing(&end, &cpu_end);
 
   printf("Sin of pi is %f (should equal %f)\n", sin(4.0 * sum), 0.0);
-  printf("Pi: %f\tWallclock time: %f\tCPU time: %f\tMFlop/s: %f\n", sum * 4.0, end - start, cpu_end - cpu_start,
-      (STEPS * (double) FLOPS_PER_STEP) / (MILLION * (end - start)));
+  printf("Pi: %f\tWallclock time: %f\tCPU time: %f\tDivMFlop/s: %f\n", sum * 4.0, end - start, cpu_end - cpu_start,
+      (STEPS * (double) DIV_FLOPS_PER_SEC) / (MILLION * (end - start)));
   return 0;
 }
 
